@@ -1,13 +1,21 @@
 package com.spacesim;
 
 
+import java.util.Random;
+
 import com.badlogic.gdx.Game;
-import com.spacesim.screens.TestScreen;
+import com.badlogic.gdx.math.Vector2;
+import com.spacesim.screens.GalaxyMapScreen;
 
 public class SpaceSim extends Game {
 
+	public Galaxy galaxy;
+	public SpaceShip ship;
+	
     @Override
     public void create() {
-        this.setScreen(new TestScreen());
+    	this.galaxy = new Galaxy(100, new Random(System.currentTimeMillis()));
+    	this.ship = new SpaceShip(new Vector2(0.5f, 0.5f), 10, 10);
+        this.setScreen(new GalaxyMapScreen(this));
     }
 }
