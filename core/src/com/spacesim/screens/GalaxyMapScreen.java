@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -19,7 +20,8 @@ public class GalaxyMapScreen implements Screen, InputProcessor {
 	SpaceSim game;
 	ShapeRenderer shapeRndr;
 	Planet chosenPlanet;
-	
+	private Texture background;
+	private Texture star,starSelected;
 	private SpriteBatch batch;
     private BitmapFont font;
 	
@@ -31,6 +33,10 @@ public class GalaxyMapScreen implements Screen, InputProcessor {
 		batch = new SpriteBatch();    
         font = new BitmapFont();
         font.setColor(Color.RED);
+		background = new Texture(Gdx.files.internal("dueling_stars.png"));
+		star = new Texture(Gdx.files.internal("star.png"));
+		starSelected = new Texture(Gdx.files.internal("star_red.png"));
+
 	}
 	
 	@Override
@@ -42,21 +48,30 @@ public class GalaxyMapScreen implements Screen, InputProcessor {
 	public void render(float delta) {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        
-        shapeRndr.begin(ShapeType.Filled);
-        shapeRndr.setColor(1, 1, 1, 1);
+        batch.begin();
+		batch.draw(background, 0, 0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+		//batch.draw(star, 30, 30,15,15);
+
+
+
+
+		//shapeRndr.begin(ShapeType.Filled);
+       // shapeRndr.setColor(1, 1, 1, 1);
         for(Planet p : this.game.galaxy.planets) {
         	if(chosenPlanet != null && p.name.equals(chosenPlanet.name) && p.position.equals(chosenPlanet.position)) {
-        		shapeRndr.setColor(1, 0, 0, 1);
+        		//shapeRndr.setColor(1, 0, 0, 1);
         		Vector2 newp = new Vector2(p.position).scl(600);
-            	shapeRndr.point(newp.x, newp.y, 0);
-            	shapeRndr.setColor(1, 1, 1, 1);
+				batch.draw(starSelected, newp.x,newp.y,15, 15);
+
+				//shapeRndr.point(newp.x, newp.y, 0);
+            	//shapeRndr.setColor(1, 1, 1, 1);
         	} else {
         		Vector2 newp = new Vector2(p.position).scl(600);
-        		shapeRndr.point(newp.x, newp.y, 0);
+				batch.draw(star,newp.x,newp.y,15, 15);
         	}
         }
-        shapeRndr.end();
+        //shapeRndr.end();
+		batch.end();
 
         if(chosenPlanet == null) {
         	batch.begin();
