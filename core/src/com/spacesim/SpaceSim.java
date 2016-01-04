@@ -5,7 +5,7 @@ import java.util.Random;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.math.Vector2;
-import com.spacesim.screens.GalaxyMapScreen;
+import com.spacesim.screens.StartScreen;
 
 public class SpaceSim extends Game {
 
@@ -16,6 +16,6 @@ public class SpaceSim extends Game {
     public void create() {
     	this.galaxy = new Galaxy(100, new Random(System.currentTimeMillis()));
     	this.ship = new SpaceShip(new Vector2(0.5f, 0.5f), 10, 10);
-        this.setScreen(new GalaxyMapScreen(this));
+    	this.setScreen(new StartScreen(this));
     }
 }
