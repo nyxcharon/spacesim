@@ -9,8 +9,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.spacesim.Planet;
 import com.spacesim.SpaceSim;
@@ -18,7 +16,6 @@ import com.spacesim.SpaceSim;
 public class GalaxyMapScreen implements Screen, InputProcessor {
 
 	SpaceSim game;
-	ShapeRenderer shapeRndr;
 	Planet chosenPlanet;
 	private Texture background;
 	private Texture star,starSelected;
@@ -27,16 +24,14 @@ public class GalaxyMapScreen implements Screen, InputProcessor {
 	
 	public GalaxyMapScreen(SpaceSim game) {
 		this.game = game;
-		this.shapeRndr = new ShapeRenderer();
 		Gdx.input.setInputProcessor(this);
 		
-		batch = new SpriteBatch();    
+		batch = new SpriteBatch();
         font = new BitmapFont();
         font.setColor(Color.RED);
 		background = new Texture(Gdx.files.internal("dueling_stars.png"));
 		star = new Texture(Gdx.files.internal("star.png"));
 		starSelected = new Texture(Gdx.files.internal("star_red.png"));
-
 	}
 	
 	@Override
@@ -50,27 +45,17 @@ public class GalaxyMapScreen implements Screen, InputProcessor {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
 		batch.draw(background, 0, 0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
-		//batch.draw(star, 30, 30,15,15);
 
-
-
-
-		//shapeRndr.begin(ShapeType.Filled);
-       // shapeRndr.setColor(1, 1, 1, 1);
         for(Planet p : this.game.galaxy.planets) {
         	if(chosenPlanet != null && p.name.equals(chosenPlanet.name) && p.position.equals(chosenPlanet.position)) {
-        		//shapeRndr.setColor(1, 0, 0, 1);
         		Vector2 newp = new Vector2(p.position).scl(600);
 				batch.draw(starSelected, newp.x,newp.y,15, 15);
 
-				//shapeRndr.point(newp.x, newp.y, 0);
-            	//shapeRndr.setColor(1, 1, 1, 1);
         	} else {
         		Vector2 newp = new Vector2(p.position).scl(600);
 				batch.draw(star,newp.x,newp.y,15, 15);
         	}
         }
-        //shapeRndr.end();
 		batch.end();
 
         if(chosenPlanet == null) {
@@ -148,14 +133,10 @@ public class GalaxyMapScreen implements Screen, InputProcessor {
 
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
-		System.out.println("X: " + screenX);
-		System.out.println("Y: " + screenY);
 		screenY = 600 - screenY;
 		for(Planet p : this.game.galaxy.planets) {
         	Vector2 newp = new Vector2(p.position).scl(600);
-        	if((screenX >= (newp.x - 5) && screenX <= (newp.x + 5)) && (screenY >= (newp.y - 5) && screenY <= (newp.y + 5))) {
-        		System.out.println("Name: " + p.name);
-        		System.out.println("X: " + newp.x + ", Y: " + newp.y);
+        	if((screenX >= (newp.x - 10) && screenX <= (newp.x + 10)) && (screenY >= (newp.y - 10) && screenY <= (newp.y + 10))) {
         		chosenPlanet = p;
         	}
         }
