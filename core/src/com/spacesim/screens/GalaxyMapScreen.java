@@ -19,6 +19,7 @@ public class GalaxyMapScreen implements Screen, InputProcessor {
 	Planet chosenPlanet;
 	private Texture background;
 	private Texture star,starSelected;
+	private Texture player;
 	private SpriteBatch batch;
     private BitmapFont font;
 	
@@ -32,6 +33,7 @@ public class GalaxyMapScreen implements Screen, InputProcessor {
 		background = new Texture(Gdx.files.internal("dueling_stars.png"));
 		star = new Texture(Gdx.files.internal("star.png"));
 		starSelected = new Texture(Gdx.files.internal("star_red.png"));
+		player = new Texture(Gdx.files.internal("star_green.png"));
 	}
 	
 	@Override
@@ -56,6 +58,11 @@ public class GalaxyMapScreen implements Screen, InputProcessor {
 				batch.draw(star,newp.x,newp.y,15, 15);
         	}
         }
+		batch.end();
+		
+		Vector2 newPlayer = new Vector2(game.ship.position).scl(600);
+		batch.begin();
+		batch.draw(player, newPlayer.x,newPlayer.y,15, 15);
 		batch.end();
 
         if(chosenPlanet == null) {
